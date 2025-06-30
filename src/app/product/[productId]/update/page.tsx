@@ -1,13 +1,13 @@
 import React from "react";
-import UpdateForm from "./../../../components/UpdateForm";
+import UpdateForm from "../../../components/UpdateForm";
 
-type Props = {
+const UpdateProductPage = ({
+  params
+}: {
   params: {
     productId: string;
   };
-};
-
-const UpdateProductPage = ({ params }: Props) => {
+}) => {
   const { productId } = params;
 
   return (
