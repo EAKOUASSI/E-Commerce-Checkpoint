@@ -1,13 +1,7 @@
 import React from "react";
-import UpdateForm from "../../../components/UpdateForm";
+import UpdateForm from "./../../../components/UpdateForm";
 
-interface UpdatePageProps {
-  params: {
-    productId: string;
-  };
-}
-
-const UpdateProductPage = ({ params }: UpdatePageProps) => {
+const UpdateProductPage = ({ params }: { params: { productId: string } }) => {
   const { productId } = params;
 
   return (
