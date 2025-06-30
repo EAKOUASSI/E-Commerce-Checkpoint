@@ -48,7 +48,7 @@ const Navbar = () => {
 
         {/* Bouton */}
         <Link href="/add-product">
-          <button className="bg-[#212529] hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-md transition">
+          <button className="bg-[#212529] hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-md transition cursor-pointer">
             + Ajouter un article
           </button>
         </Link>
