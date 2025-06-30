@@ -2,18 +2,19 @@ import mongoose from "mongoose";
 import cloudinary from "@/utils/cloudinary";
 import Product from "../../models/product.model";
 import { connectDB } from "../../db/connectDB";
+import { NextRequest } from "next/server";
 
-export async function GET(
-  request: Request,
-  context: { params: { productId: string } }
-) {
-  const { productId } = context.params;
+export async function GET(req: NextRequest) {
+  const productId = req.nextUrl.pathname.split("/").pop();
   console.log("productId reçu:", productId);
-  console.log("Is valid ObjectId?", mongoose.Types.ObjectId.isValid(productId));
+  console.log(
+    "Is valid ObjectId?",
+    mongoose.Types.ObjectId.isValid(productId!)
+  );
 
   await connectDB();
 
-  if (!mongoose.Types.ObjectId.isValid(productId)) {
+  if (!productId || !mongoose.Types.ObjectId.isValid(productId)) {
     return new Response(
       JSON.stringify({ message: "ID de produit invalide !" }),
       {
@@ -39,15 +40,12 @@ export async function GET(
   }
 }
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: { productId: string } }
-) {
+export async function DELETE(req: NextRequest) {
   await connectDB();
 
-  const productId = params.productId;
+  const productId = req.nextUrl.pathname.split("/").pop();
 
-  if (!mongoose.Types.ObjectId.isValid(productId)) {
+  if (!productId || !mongoose.Types.ObjectId.isValid(productId)) {
     return new Response(
       JSON.stringify({ message: "ID de produit Invalide !" }),
       {
@@ -67,17 +65,15 @@ export async function DELETE(
       );
     }
 
-    // Suppression image de Cloudinary
     const parts = product.image.split("/");
     const fileName = parts[parts.length - 1];
     const imageId = fileName.split(".")[0];
     await cloudinary.uploader.destroy(`watches/${imageId}`);
 
-    // Suppression produit de MongoDB
     await Product.findByIdAndDelete(productId);
 
     return new Response(
-      JSON.stringify({ message: "Produit suprimer avec succès !" }),
+      JSON.stringify({ message: "Produit supprimé avec succès !" }),
       {
         status: 200
       }
