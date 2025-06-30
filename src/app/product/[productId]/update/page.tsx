@@ -1,13 +1,14 @@
 import React from "react";
 import UpdateForm from "../../../components/UpdateForm";
 
-const UpdateProductPage = ({
-  params
-}: {
+//  Typage fourni par Next.js
+type PageProps = {
   params: {
     productId: string;
   };
-}) => {
+};
+
+const UpdateProductPage = ({ params }: PageProps) => {
   const { productId } = params;
 
   return (
